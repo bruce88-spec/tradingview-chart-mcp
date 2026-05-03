@@ -15,6 +15,13 @@ def setup_logging(log_dir=None, log_level="INFO"):
     """Configure logging for the TradingView MCP server."""
     logger = logging.getLogger(__name__)
 
+    # Add stderr handler to ensure logs don't go to stdout
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setFormatter(
+        logging.Formatter("[InitialLog] %(levelname)s - %(message)s")
+    )
+    logger.addHandler(stderr_handler)
+
     if log_dir:
         os.makedirs(log_dir, exist_ok=True)
         log_file = os.path.join(log_dir, "tradingview_mcp_server.log")
@@ -25,7 +32,7 @@ def setup_logging(log_dir=None, log_level="INFO"):
         )
         file_handler.setLevel(getattr(logging, log_level))
         logger.addHandler(file_handler)
-        print(f"[LOG_INIT] Logging to file: {log_file} at level {log_level}")
+        logger.info(f"[LOG_INIT] Logging to file: {log_file} at level {log_level}")
 
     return logger
 
@@ -305,7 +312,6 @@ class OptimizedTradingViewMCPServer:
 if __name__ == "__main__":
     args = parse_arguments()
 else:
-    print("For testing, create default args.")
     # For testing, create default args
     import argparse
 

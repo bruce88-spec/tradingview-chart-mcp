@@ -1,0 +1,9 @@
+[project]
+name = "tradingview-chart-scraper"
+version = "0.1.0"
+dependencies = [
+    "mcp[cli]",
+    "python-dotenv",
+    "selenium",
+    "webdriver-manager"
+]

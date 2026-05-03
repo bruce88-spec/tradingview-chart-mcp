@@ -24,7 +24,7 @@ def setup_logging(log_dir=None, log_level="INFO"):
         )
         file_handler.setLevel(getattr(logging, log_level))
         logger.addHandler(file_handler)
-        print(f"[LOG_INIT] Logging to file: {log_file} at level {log_level}")
+        logger.info(f"[LOG_INIT] Logging to file: {log_file} at level {log_level}")
 
     return logger
 
@@ -36,12 +36,14 @@ def validate_environment():
 
     if not session_id or not session_id_sign:
         print(
-            "Error: TRADINGVIEW_SESSION_ID and TRADINGVIEW_SESSION_ID_SIGN must be set."
+            "Error: TRADINGVIEW_SESSION_ID and TRADINGVIEW_SESSION_ID_SIGN must be set.",
+            file=sys.stderr
         )
         print(
-            "       Provide them either via environment variables (e.g., in MCP client config)"
+            "       Provide them either via environment variables (e.g., in MCP client config)",
+            file=sys.stderr
         )
-        print("       or in a .env file in the project directory for local execution.")
+        print("       or in a .env file in the project directory for local execution.", file=sys.stderr)
         sys.exit(1)
 
     return session_id, session_id_sign
